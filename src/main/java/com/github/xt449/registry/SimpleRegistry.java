@@ -19,6 +19,7 @@ public class SimpleRegistry<Key, Value> implements IRegistry<Key, Value> {
 		nextId = new AtomicInteger();
 	}
 
+	@Override
 	public IRegistration<Value> register(Key key, Value value) throws IllegalArgumentException {
 		if(map.containsKey(key)) {
 			throw new IllegalArgumentException("Duplicate registry key. \"" + key.toString() + "\n already exists!");
