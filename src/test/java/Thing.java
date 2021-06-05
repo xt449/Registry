@@ -1,5 +1,3 @@
-package com.github.xt449.registry;
-
 /**
  * @author Jonathan Talcott (xt449/BinaryBanana)
  */
@@ -21,5 +19,10 @@ public class Thing {
 		if(this == other) return true;
 		if(other == null || Thing.class != other.getClass()) return false;
 		return someValue == ((Thing) other).someValue;
+	}
+
+	@Override
+	public String toString() {
+		return "Thing{" + someValue + '}';
 	}
 }
