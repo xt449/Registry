@@ -6,43 +6,37 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * @author Jonathan Talcott (xt449/BinaryBanana)
  */
-public class Registry<Key, Value> implements IRegistry<Key, Value> {
+public class SimpleIdRegistry<Key, Value> implements IIdRegistry<Key, Value> {
 
-	private final ConcurrentHashMap<Key, Registration<Key, Value>> map = new ConcurrentHashMap<>();
+	private final ConcurrentHashMap<Key, Registration<Value>> map = new ConcurrentHashMap<>();
 	private final AtomicInteger nextId;
 
-	public Registry(int startingId) {
+	public SimpleIdRegistry(int startingId) {
 		nextId = new AtomicInteger(startingId);
 	}
 
-	public Registry() {
+	public SimpleIdRegistry() {
 		nextId = new AtomicInteger();
 	}
 
 	@Override
-	public Registration<Key, Value> register(Key key, Value value) throws IllegalArgumentException {
+	public IIdRegistration<Value> register(Key key, Value value) throws IllegalArgumentException {
 		if(map.containsKey(key)) {
 			throw new IllegalArgumentException("Duplicate registry key. \"" + key.toString() + "\n already exists!");
 		}
-		final Registration<Key, Value> registration = new Registration<>(key, nextId.getAndIncrement(), value);
+		final Registration<Value> registration = new Registration<>(nextId.getAndIncrement(), value);
 		map.put(key, registration);
 		return registration;
 	}
 
-	public static class Registration<Key, Value> implements IRegistration<Value> {
+	public static class Registration<Value> implements IIdRegistration<Value> {
 
-		public final Key key;
 		public final int id;
 		public final Value value;
 
-		Registration(Key key, int id, Value value) {
-			this.key = key;
+		Registration(int id, Value value) {
 			this.id = id;
 			this.value = value;
-		}
-
-		public Key getKey() {
-			return key;
 		}
 
 		@Override

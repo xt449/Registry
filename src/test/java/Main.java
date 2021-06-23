@@ -1,4 +1,4 @@
-import com.github.xt449.registry.Registry;
+import com.github.xt449.registry.KeyIdRegistry;
 
 import java.util.Arrays;
 import java.util.List;
@@ -10,9 +10,9 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		final Registry<String, Thing> registry = new Registry<>();
+		final KeyIdRegistry<String, Thing> registry = new KeyIdRegistry<>();
 
-		final List<Registry.Registration<String, Thing>> thingRegistrations = Arrays.asList(
+		final List<KeyIdRegistry.Registration<String, Thing>> thingRegistrations = Arrays.asList(
 				registry.register("Thing 0", new Thing(4)),
 				registry.register("Thing 1", new Thing(1)),
 				registry.register("Thing 2", new Thing(2)),
@@ -23,7 +23,7 @@ public class Main {
 				registry.register("Thing 7", new Thing(-23))
 		);
 
-		for(Registry.Registration<String, Thing> registration : thingRegistrations) {
+		for(KeyIdRegistry.Registration<String, Thing> registration : thingRegistrations) {
 			System.out.println(registration.key + " (" + registration.id + "): " + registration.value);
 		}
 	}
